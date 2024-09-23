@@ -135,3 +135,8 @@ def encontrar_nodos_intermedios(coord, origen, destino, umbral_lat, umbral_lon):
 if __name__ == '__main__':
     app.run(debug=True)
 
+
+# © 2024 Jonathan Hernández. Todos los derechos reservados.
+# Este software está protegido por leyes de derechos de autor. No está permitido su redistribución o modificación sin autorización previa.
+
+
