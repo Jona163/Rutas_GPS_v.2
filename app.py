@@ -117,3 +117,21 @@ def get_routes():
         'coordenadas_ruta': coordenadas_ruta,
         'nodos_intermedios_encontrados': nodos_intermedios
     })
+
+
+def encontrar_nodos_intermedios(coord, origen, destino, umbral_lat, umbral_lon):
+    nodos_intermedios = []
+    lat_origen, lon_origen = coord[origen]
+    lat_destino, lon_destino = coord[destino]
+
+    for ciudad, (lat, lon) in coord.items():
+        if ciudad != origen and ciudad != destino:
+            if (min(lat_origen, lat_destino) - umbral_lat <= lat <= max(lat_origen, lat_destino) + umbral_lat and
+                min(lon_origen, lon_destino) - umbral_lon <= lon <= max(lon_origen, lon_destino) + umbral_lon):
+                nodos_intermedios.append(ciudad)
+    
+    return nodos_intermedios
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
