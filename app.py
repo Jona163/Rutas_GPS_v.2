@@ -86,3 +86,34 @@ def simulated_annealing(ruta, coord):
                 dist_actual = dist_tmp
         T -= 0.005
     return ruta
+
+
+@app.route('/')
+def index():
+    return render_template('index.html', ciudades=coord.keys())
+
+@app.route('/get_routes', methods=['POST'])
+def get_routes():
+    data = request.get_json()
+    origen = data['start']
+    destino = data['end']
+    umbral_lat = 0.00001
+    umbral_lon = 0.00001
+
+    if origen not in coord or destino not in coord:
+        return jsonify({'error': 'Inicio o fin inválidos.'}), 400
+
+    nodos_intermedios = encontrar_nodos_intermedios(coord, origen, destino, umbral_lat, umbral_lon)
+    
+    ruta_inicial = [origen] + nodos_intermedios + [destino]
+    ruta_optima = simulated_annealing(ruta_inicial, coord)
+    
+    # Reordenar la ruta para que coincida en el mapa y en la salida mostrada en pantalla
+    ruta_optima_str = " -> ".join(ruta_optima)
+    coordenadas_ruta = [coord[ciudad] for ciudad in ruta_optima]
+
+    return jsonify({
+        'camino': ruta_optima_str,
+        'coordenadas_ruta': coordenadas_ruta,
+        'nodos_intermedios_encontrados': nodos_intermedios
+    })
