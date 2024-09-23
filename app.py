@@ -65,3 +65,24 @@ def evalua_ruta(ruta, coord):
         ciudad2 = ruta[i + 1]
         total += distancia(coord[ciudad1], coord[ciudad2])
     return total
+
+
+def simulated_annealing(ruta, coord):
+    T = 20
+    T_MIN = 0
+    V_enfriamiento = 100
+
+    while T > T_MIN:
+        dist_actual = evalua_ruta(ruta, coord)
+        for _ in range(V_enfriamiento):
+            i = random.randint(1, len(ruta) - 2)  # Evitar intercambiar origen y destino
+            j = random.randint(1, len(ruta) - 2)
+            ruta_tmp = ruta[:]
+            ruta_tmp[i], ruta_tmp[j] = ruta_tmp[j], ruta_tmp[i]
+            dist_tmp = evalua_ruta(ruta_tmp, coord)
+            delta = dist_tmp - dist_actual
+            if delta < 0 or random.random() < exp(-delta / T):
+                ruta = ruta_tmp[:]
+                dist_actual = dist_tmp
+        T -= 0.005
+    return ruta
