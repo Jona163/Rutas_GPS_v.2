@@ -113,3 +113,27 @@ def encontrar_nodos_intermedios(coord, origen, destino, umbral_lat, umbral_lon):
     # Ordenar los nodos intermedios basados en su distancia desde el origen
     nodos_intermedios.sort(key=lambda ciudad: distancia(coord[origen], coord[ciudad]))
     return nodos_intermedios
+
+
+@app.route('/get_routes', methods=['POST'])
+def get_routes():
+    data = request.get_json()
+    origen = data['start']
+    destino = data['end']
+    umbral_lat = 0.080000 #Umbral de latitud en punto medio porque se ponia sus moños 
+    umbral_lon = 0.080000 #umbral de longitud igual punto medio , coreccion de 0.000005 a jugar con el umbral.
+
+    if origen not in coord or destino not in coord:
+        return jsonify({'error': 'Inicio o fin inválidos.'}), 400
+
+    nodos_intermedios = encontrar_nodos_intermedios(coord, origen, destino, umbral_lat, umbral_lon)
+
+    # Imprimir los nodos intermedios encontrados
+    print(f"Nodos intermedios encontrados: {nodos_intermedios}")   
+
+    ruta_inicial = [origen] + nodos_intermedios + [destino]
+    ruta_optima = simulated_annealing(ruta_inicial, coord)
+
+    # Reordenar la ruta para que coincida en el mapa y en la salida mostrada en pantalla
+    ruta_optima_str = " -> ".join(ruta_optima)
+    coordenadas_ruta = [coord[ciudad] for ciudad in ruta_optima]
