@@ -137,3 +137,20 @@ def get_routes():
     # Reordenar la ruta para que coincida en el mapa y en la salida mostrada en pantalla
     ruta_optima_str = " -> ".join(ruta_optima)
     coordenadas_ruta = [coord[ciudad] for ciudad in ruta_optima]
+
+
+    # Agregar origen y destino a la respuesta
+    return jsonify({
+        'origen': origen,
+        'destino': destino,
+        'camino': ruta_optima_str,
+        'coordenadas_ruta': coordenadas_ruta,
+        'nodos_intermedios_encontrados': nodos_intermedios
+    })
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# © 2024 Jonathan Hernández. Todos los derechos reservados.
+# Este software está protegido por leyes de derechos de autor. No está permitido su redistribución o modificación sin autorización previa.
