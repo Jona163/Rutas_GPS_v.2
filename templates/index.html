@@ -8,3 +8,99 @@
 © 2024 Jonathan Hernández. Todos los derechos reservados.
 Este software está protegido por leyes de derechos de autor. No está permitido su redistribución o modificación sin autorización previa. 
 -->
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutas</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #0D065C; /* Fondo exterior */
+            color: #fff;
+        }
+
+        #map {
+            height: 400px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+            transition: transform 0.5s;
+        }
+
+        #map:hover {
+            transform: scale(1.02);
+        }
+
+        .main-container {
+            background-color: #1A1A1D; /* Fondo interior */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+
+        .main-container:hover {
+            background-color: #2B2B2B;
+        }
+
+        .selector label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        .form-select {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+
+        .obtener-ruta-btn {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #007BFF;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .obtener-ruta-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .info p {
+            font-size: 1.1em;
+        }
+
+        .card {
+            background-color: #2B2B2B;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .selector label {
+                text-align: left; /* Alinear a la izquierda en móviles */
+            }
+        }
+    </style>
