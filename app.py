@@ -94,3 +94,22 @@ def simulated_annealing(ruta, coord):
                         dist_actual = dist_tmp
         T -= 0.005
     return ruta
+
+
+@app.route('/')
+def index():
+    return render_template('index.html', ciudades=coord.keys())
+def encontrar_nodos_intermedios(coord, origen, destino, umbral_lat, umbral_lon):
+    nodos_intermedios = []
+    lat_origen, lon_origen = coord[origen]
+    lat_destino, lon_destino = coord[destino]
+
+    for ciudad, (lat, lon) in coord.items():
+        if ciudad != origen and ciudad != destino:
+            if (min(lat_origen, lat_destino) - umbral_lat <= lat <= max(lat_origen, lat_destino) + umbral_lat and
+                min(lon_origen, lon_destino) - umbral_lon <= lon <= max(lon_origen, lon_destino) + umbral_lon):
+                nodos_intermedios.append(ciudad)
+
+    # Ordenar los nodos intermedios basados en su distancia desde el origen
+    nodos_intermedios.sort(key=lambda ciudad: distancia(coord[origen], coord[ciudad]))
+    return nodos_intermedios
