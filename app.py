@@ -45,3 +45,25 @@ coord = {
     'Yucatan': [20.967, -89.6237],
     'Zacatecas': [22.7709, -102.5833]
 }
+
+
+def distancia(coord1, coord2):
+    lat1, lon1 = radians(coord1[0]), radians(coord1[1])
+    lat2, lon2 = radians(coord2[0]), radians(coord2[1])
+
+    # Haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    distancia = 6371 * c  # Radius of Earth in kilometers
+
+    return distancia
+
+def evalua_ruta(ruta, coord):
+    total = 0
+    for i in range(len(ruta) - 1):
+        ciudad1 = ruta[i]
+        ciudad2 = ruta[i + 1]
+        total += distancia(coord[ciudad1], coord[ciudad2])
+    return total
