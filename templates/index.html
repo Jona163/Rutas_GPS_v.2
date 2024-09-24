@@ -104,3 +104,59 @@ Este software está protegido por leyes de derechos de autor. No está permitido
             }
         }
     </style>
+    <script>
+         let map, directionsService, directionsRenderer;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 5,
+                center: { lat: 23.6345, lng: -102.5528 }
+            });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+        }
+
+        function trazarRuta(coordenadasRuta, nodosIntermedios, distancia) {
+            const waypoints = coordenadasRuta.slice(1, -1).map(coord => ({
+                location: { lat: coord[0], lng: coord[1] },
+                stopover: true
+            }));
+
+            const origen = coordenadasRuta[0];
+            const destino = coordenadasRuta[coordenadasRuta.length - 1];
+
+            const request = {
+                origin: { lat: origen[0], lng: origen[1] },
+                destination: { lat: destino[0], lng: destino[1] },
+                waypoints: waypoints,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(request, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(result);
+                    let totalDistance = 0;
+                    result.routes[0].legs.forEach(leg => {
+                        totalDistance += leg.distance.value;
+                    });
+                    const distanceInKm = (totalDistance / 1000).toFixed(2);
+                    mostrarInfoRuta(nodosIntermedios, distanceInKm);
+                } else {
+                    alert('Error al obtener la ruta: ' + status);
+                }
+            });
+        }
+
+        function mostrarInfoRuta(nodosIntermedios, distancia) {
+            const existingInfoDiv = document.querySelector('.info');
+            if (existingInfoDiv) {
+                existingInfoDiv.innerHTML = ''; // Limpiar contenido existente
+            }
+
+            const infoText = `<p>Ruta: <span>${nodosIntermedios.join(' -> ')}</span></p>
+                              <p>Distancia (km): <span>${distancia}</span> km</p>`;
+
+            existingInfoDiv.innerHTML = infoText;
+        }
