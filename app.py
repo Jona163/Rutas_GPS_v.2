@@ -1,8 +1,7 @@
 # Autor: Jonathan Hernández
 # Fecha: 23 Septiembre 2024
-# Descripción: Código para rutas gps v2.2.0.
+# Descripción: Código para rutas gps v2.
 # GitHub: https://github.com/Jona163
-
 
 from flask import Flask, render_template, request, jsonify
 from math import radians, sin, cos, sqrt, atan2, exp
@@ -46,7 +45,6 @@ coord = {
     'Zacatecas': [22.7709, -102.5833]
 }
 
-
 def distancia(coord1, coord2):
     lat1, lon1 = radians(coord1[0]), radians(coord1[1])
     lat2, lon2 = radians(coord2[0]), radians(coord2[1])
@@ -67,7 +65,6 @@ def evalua_ruta(ruta, coord):
         ciudad2 = ruta[i + 1]
         total += distancia(coord[ciudad1], coord[ciudad2])
     return total
-
 
 def simulated_annealing(ruta, coord):
     T = 20
@@ -95,7 +92,6 @@ def simulated_annealing(ruta, coord):
         T -= 0.005
     return ruta
 
-
 @app.route('/')
 def index():
     return render_template('index.html', ciudades=coord.keys())
@@ -113,7 +109,6 @@ def encontrar_nodos_intermedios(coord, origen, destino, umbral_lat, umbral_lon):
     # Ordenar los nodos intermedios basados en su distancia desde el origen
     nodos_intermedios.sort(key=lambda ciudad: distancia(coord[origen], coord[ciudad]))
     return nodos_intermedios
-
 
 @app.route('/get_routes', methods=['POST'])
 def get_routes():
@@ -137,7 +132,6 @@ def get_routes():
     # Reordenar la ruta para que coincida en el mapa y en la salida mostrada en pantalla
     ruta_optima_str = " -> ".join(ruta_optima)
     coordenadas_ruta = [coord[ciudad] for ciudad in ruta_optima]
-
 
     # Agregar origen y destino a la respuesta
     return jsonify({
