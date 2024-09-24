@@ -1,5 +1,5 @@
 # Autor: Jonathan Hernández
-# Fecha: 24 Septiembre 2024
+# Fecha: 23 Septiembre 2024
 # Descripción: Código para rutas gps v2.2.0.
 # GitHub: https://github.com/Jona163
 
@@ -67,3 +67,30 @@ def evalua_ruta(ruta, coord):
         ciudad2 = ruta[i + 1]
         total += distancia(coord[ciudad1], coord[ciudad2])
     return total
+
+
+def simulated_annealing(ruta, coord):
+    T = 20
+    T_MIN = 0
+    V_enfriamiento = 150 #Le aumente las iteraciones en un punto intermedio , para evitar lentitud en ejecucion.
+
+    if len(ruta) <= 2:  # Verificar que la ruta tiene al menos 2 nodos
+        return ruta  # No se necesita optimización si solo hay origen y destino
+
+    while T > T_MIN:
+        dist_actual = evalua_ruta(ruta, coord)
+        for _ in range(V_enfriamiento):
+            if len(ruta) > 2:
+                i = random.randint(1, len(ruta) - 2)  # Evitar intercambiar origen y destino
+                j = random.randint(1, len(ruta) - 2)
+                # Asegurarte de no intercambiar entre el origen y destino
+                if i != j:
+                    ruta_tmp = ruta[:]
+                    ruta_tmp[i], ruta_tmp[j] = ruta_tmp[j], ruta_tmp[i]
+                    dist_tmp = evalua_ruta(ruta_tmp, coord)
+                    delta = dist_tmp - dist_actual
+                    if delta < 0 or random.random() < exp(-delta / T):
+                        ruta = ruta_tmp[:]
+                        dist_actual = dist_tmp
+        T -= 0.005
+    return ruta
