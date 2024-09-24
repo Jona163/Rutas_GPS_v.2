@@ -9,7 +9,6 @@
 Este software está protegido por leyes de derechos de autor. No está permitido su redistribución o modificación sin autorización previa. 
 -->
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -105,7 +104,7 @@ Este software está protegido por leyes de derechos de autor. No está permitido
         }
     </style>
     <script>
-         let map, directionsService, directionsRenderer;
+        let map, directionsService, directionsRenderer;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
@@ -160,7 +159,7 @@ Este software está protegido por leyes de derechos de autor. No está permitido
 
             existingInfoDiv.innerHTML = infoText;
         }
-        
+
         function obtenerRuta() {
             const ciudad_inicio = document.getElementById('ciudad_inicio').value;
             const ciudad_final = document.getElementById('ciudad_final').value;
